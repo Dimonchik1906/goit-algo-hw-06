@@ -27,10 +27,8 @@ class Record:
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
     # видалення контакту
-    def remove_phone(self, phone):
-        for p in self.phones:
-            if p.value != phone:
-                self.phone = p
+    def remove_phone(self, phone_number):
+        self.phones = [p for p in self.phones if p.value != phone_number]
     # зміна номеру
     def edit_phone(self, old_number, new_nuber):   
         for p in self.phones:
@@ -68,14 +66,13 @@ if __name__ == "__main__":
     book = AddressBook()
     
     john_record = Record("John")
-    john_record.add_phone("1234567890")
+    john_record.add_phone("1234567890")   
     john_record.add_phone("5555555555")
+    john_record.add_phone("0987654321")
     book.add_record(john_record)
-    
     jane_record = Record("Jane")
     jane_record.add_phone("9876511111")
     book.add_record(jane_record)
-    
     print(book)
     john = book.find("John")
     john.edit_phone("1234567890", "1112223333")
@@ -83,5 +80,6 @@ if __name__ == "__main__":
     found_phone = john.find_phone("5555555555")
     print(f"{john.name}: {found_phone}")
     book.delete("Jane")
+    john_record.remove_phone("0987654321")
     print(book)
 
