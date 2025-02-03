@@ -29,19 +29,20 @@ class Record:
     # видалення контакту
     def remove_phone(self, phone_number):
         self.phones = [p for p in self.phones if p.value != phone_number]
-    # зміна номеру
-    def edit_phone(self, old_number, new_nuber):   
-        for p in self.phones:
-            if p.value == old_number:
-                p.value = new_nuber
-                return
-        raise ValueError("Номер телефону не знайдено")
     # пошук номера
     def find_phone(self, number):
         for p in self.phones:
             if p.value == number:
                 return p
         return None
+    # зміна номеру
+    def edit_phone(self, old_number, new_nuber):   
+        number = self.find_phone(old_number)
+        if number:
+            self.remove_phone(old_number)
+            self.add_phone(new_nuber)
+            return
+        raise ValueError("Номер телефону не знайдено")
     # ввивід тексту
     def __str__(self):
         return f"Імʼя контакту: {self.name.value}, телефон: {'; '.join(p.value for p in self.phones)}"
@@ -75,7 +76,7 @@ if __name__ == "__main__":
     book.add_record(jane_record)
     print(book)
     john = book.find("John")
-    john.edit_phone("1234567890", "1112223333")
+    john.edit_phone("1234567890", "1112223334")
     print(john)
     found_phone = john.find_phone("5555555555")
     print(f"{john.name}: {found_phone}")
